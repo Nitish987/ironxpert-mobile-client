@@ -197,8 +197,8 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                String authToken = documentSnapshot.get("authToken", String.class);
                 String encKey = AES128.decrypt(AES128.NATIVE_ENCRYPTION_KEY, documentSnapshot.get("encKey", String.class));
+                String authToken = AES128.decrypt(encKey, documentSnapshot.get("eAuthToken", String.class));
                 String payKey = AES128.decrypt(AES128.NATIVE_ENCRYPTION_KEY, documentSnapshot.get("payKey", String.class));
 
                 AuthPreferences preferences = new AuthPreferences(this);
