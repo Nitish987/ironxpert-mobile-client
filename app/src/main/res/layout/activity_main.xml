@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            style="@style/ImgTextLogo" />
+            style="@style/ImgTextLogo"
+            android:contentDescription="@string/app_name" />
 
         <ImageButton
             android:id="@+id/cart"
@@ -34,12 +35,23 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/welcome_back"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_below="@id/toolbar"
+        android:layout_marginVertical="1dp"
+        android:paddingHorizontal="10dp"/>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/title"
         android:layout_above="@id/tabs"
-        android:layout_below="@id/toolbar"
         android:name="com.ironxpert.client.tabs.HomeFragment"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

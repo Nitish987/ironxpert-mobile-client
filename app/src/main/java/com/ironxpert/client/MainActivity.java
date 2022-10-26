@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ironxpert.client.common.auth.Auth;
@@ -16,6 +17,7 @@ import com.ironxpert.client.tabs.OrdersFragment;
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView tabs;
     private ImageButton cartBtn;
+    private TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         tabs = findViewById(R.id.tabs);
         cartBtn = findViewById(R.id.cart);
+        title = findViewById(R.id.title);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -37,12 +40,15 @@ public class MainActivity extends AppCompatActivity {
         tabs.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.home:
+                    title.setText(getString(R.string.welcome_back));
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
                     break;
                 case R.id.orders:
+                    title.setText(getString(R.string.orders));
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new OrdersFragment()).commit();
                     break;
                 case R.id.profile:
+                    title.setText(getString(R.string.profile));
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
                     break;
             }

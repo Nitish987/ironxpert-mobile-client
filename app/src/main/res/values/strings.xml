@@ -24,8 +24,6 @@
     <string name="profile">Profile</string>
     <string name="welcome_back">Welcome Back!</string>
     <string name="hello">Hello</string>
-    <string name="search_chapati">Search chapati</string>
-    <string name="daily_eats">Daily eats</string>
     <string name="breakfast">Breakfast</string>
     <string name="lunch">Lunch</string>
     <string name="dinner">Dinner</string>
@@ -128,4 +126,9 @@
     </string-array>
     <string name="title_activity_maps">IronXpert Delivery Tracking</string>
     <string name="track_delivery">Track Delivery</string>
+    <string name="clean_in_one_blink">Clean in one Blink</string>
+    <string name="intro_desc">We will use all our strength to shorten the time it takes for the laundry to take place</string>
+    <string name="services">Our Services</string>
+    <string name="service_name">Service Name</string>
+    <string name="service_description">Service Description</string>
 </resources>

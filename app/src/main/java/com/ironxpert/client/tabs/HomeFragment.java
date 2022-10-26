@@ -30,18 +30,11 @@ import com.ironxpert.client.utils.Validator;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment {
     private View view;
-    private RecyclerView foodsCardRV, foodsRV;
-    private CircularProgressIndicator foodCardProgress, foodItemProgress;
-    private ChipGroup foodFilters;
-    private EditText search_eTxt;
-    private AppCompatImageButton searchBtn;
-
-    private List<Food> foods;
+    private RecyclerView serviceRv;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,19 +45,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        foodsCardRV = view.findViewById(R.id.food_cards_rv);
-        foodsCardRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        foodsCardRV.setHasFixedSize(true);
-
-        foodsRV = view.findViewById(R.id.food_item_rv);
-        foodsRV.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        foodsRV.setHasFixedSize(true);
-
-        foodCardProgress = view.findViewById(R.id.food_card_progress);
-        foodItemProgress = view.findViewById(R.id.food_item_progress);
-        foodFilters = view.findViewById(R.id.food_filter);
-        search_eTxt = view.findViewById(R.id.search);
-        searchBtn = view.findViewById(R.id.search_btn);
 
         return view;
     }
@@ -73,77 +53,5 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseFirestore.getInstance().collection("foods").get().addOnSuccessListener(requireActivity(), queryDocumentSnapshots -> {
-            foods = queryDocumentSnapshots.toObjects(Food.class);
-
-            foodCardProgress.setVisibility(View.GONE);
-            foodItemProgress.setVisibility(View.GONE);
-            foodFilters.setEnabled(true);
-
-            FoodCardRecyclerAdapter cardAdapter = new FoodCardRecyclerAdapter(foods, requireActivity().getSupportFragmentManager());
-            foodsCardRV.setAdapter(cardAdapter);
-
-            List<Food> foodItems = performTop10FoodQuery();
-            FoodItemRecyclerAdapter itemAdapter = new FoodItemRecyclerAdapter(foodItems, requireActivity().getSupportFragmentManager());
-            foodsRV.setAdapter(itemAdapter);
-        }).addOnFailureListener(e -> Toast.makeText(view.getContext(), "Unable to load Item.", Toast.LENGTH_SHORT).show());
-
-        foodFilters.setOnCheckedStateChangeListener((group, checkedIds) -> {
-            switch (group.getCheckedChipId()) {
-                case R.id.breakfast:
-                    List<Food> breakfast = performFoodCardQuery("breakfast");
-                    foodsCardRV.swapAdapter(new FoodCardRecyclerAdapter(breakfast, requireActivity().getSupportFragmentManager()), true);
-                    break;
-
-                case R.id.lunch:
-                    List<Food> lunch = performFoodCardQuery("lunch");
-                    foodsCardRV.swapAdapter(new FoodCardRecyclerAdapter(lunch, requireActivity().getSupportFragmentManager()), true);
-                    break;
-
-                case R.id.dinner:
-                    List<Food> dinner = performFoodCardQuery("dinner");
-                    foodsCardRV.swapAdapter(new FoodCardRecyclerAdapter(dinner, requireActivity().getSupportFragmentManager()), true);
-                    break;
-
-                default:
-                    foodsCardRV.swapAdapter(new FoodCardRecyclerAdapter(foods, requireActivity().getSupportFragmentManager()), true);
-                    break;
-            }
-        });
-
-        FirebaseFirestore.getInstance().collection("toppings").get().addOnSuccessListener(requireActivity(), queryDocumentSnapshots -> FoodDetailBottomSheet.TOPPINGS = queryDocumentSnapshots.toObjects(Topping.class)).addOnFailureListener(e -> Toast.makeText(view.getContext(), "Unable to load Item.", Toast.LENGTH_SHORT).show());
-
-        searchBtn.setOnClickListener(view1 -> {
-            String query = search_eTxt.getText().toString();
-
-            if (Validator.isEmpty(query)) {
-                Toast.makeText(view.getContext(), "Search should not be empty.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Intent intent = new Intent(view.getContext(), SearchResultActivity.class);
-            intent.putExtra("SEARCH_QUERY", query);
-            intent.putExtra("FOOD_DATA", (Serializable) foods);
-            startActivity(intent);
-        });
-    }
-
-    private List<Food> performFoodCardQuery(String filter) {
-        return foods.stream().filter(f -> f.getFood_type().equals(filter)).collect(Collectors.toList());
-    }
-
-    private List<Food> performTop10FoodQuery() {
-        int limit = 10;
-        List<Food> query = new ArrayList<>();
-        for (int i = 0; i < foods.size(); i++) {
-            if (limit == 0) break;
-
-            Food f = foods.get(i);
-            if (f.getRating() >= 3.5) {
-                query.add(f);
-                limit--;
-            }
-        }
-        return query;
     }
 }
