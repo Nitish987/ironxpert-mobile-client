@@ -66,24 +66,24 @@ public class ProfileFragment extends Fragment {
         myNameTxt.setText(Auth.getAuthUserName());
         emailTxt.setText(Auth.getAuthUserEmail());
 
-        FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).collection("data").document("profile").get().addOnSuccessListener(documentSnapshot -> {
+        FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).get().addOnSuccessListener(documentSnapshot -> {
             if (!documentSnapshot.get("photo", String.class).equals("")) {
                 photo = documentSnapshot.get("photo", String.class);
                 Glide.with(view.getContext()).load(photo).into(myPhoto);
             }
         });
 
-        FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).addSnapshotListener((value, error) -> {
-            if (value != null && value.exists()) {
-                name = value.get("name", String.class);
-                phone = value.get("phone", String.class);
-                address = value.get("address", String.class);
-
-                nameTxt.setText(name);
-                phoneTxt.setText(phone);
-                addressTxt.setText(address);
-            }
-        });
+//        FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).addSnapshotListener((value, error) -> {
+//            if (value != null && value.exists()) {
+//                name = value.get("name", String.class);
+//                phone = value.get("phone", String.class);
+//                address = value.get("address", String.class);
+//
+//                nameTxt.setText(name);
+//                phoneTxt.setText(phone);
+//                addressTxt.setText(address);
+//            }
+//        });
 
         changePhotoBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(view.getContext(), MyPhotoActivity.class);

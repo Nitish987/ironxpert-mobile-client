@@ -28,18 +28,7 @@ public class MessagingService extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         if (Auth.isUserAuthenticated(this)) {
-            Auth.Login.updateMessageToken(this, token, new Promise<String>() {
-                @Override
-                public void resolving(int progress, String msg) {}
-
-                @Override
-                public void resolved(String o) {
-                }
-
-                @Override
-                public void reject(String err) {
-                }
-            });
+            Auth.Login.updateMessageToken(Auth.getAuthUserUid(), token);
         }
     }
 
