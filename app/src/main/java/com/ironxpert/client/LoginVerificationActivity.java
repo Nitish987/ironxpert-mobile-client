@@ -21,6 +21,8 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.ironxpert.client.common.auth.Auth;
+import com.ironxpert.client.common.db.Database;
+import com.ironxpert.client.models.User;
 import com.ironxpert.client.utils.Promise;
 import com.ironxpert.client.utils.Validator;
 
@@ -29,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LoginVerificationActivity extends AppCompatActivity {
     private EditText otp_eTxt;
-    private TextView resendOtp;
+    private TextView resendOtp, otpSubheading;
     private AppCompatButton verifyBtn;
     private CircularProgressIndicator verifyProgress;
 
@@ -55,6 +57,7 @@ public class LoginVerificationActivity extends AppCompatActivity {
         resendOtp = findViewById(R.id.resent_otp);
         verifyBtn = findViewById(R.id.verify_btn);
         verifyProgress = findViewById(R.id.verify_progress);
+        otpSubheading = findViewById(R.id.otp_subheading);
 
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
@@ -81,6 +84,9 @@ public class LoginVerificationActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        String subheading = "Enter the otp sent to your number " + phone;
+        otpSubheading.setText(subheading);
+
         otp_eTxt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -168,7 +174,18 @@ public class LoginVerificationActivity extends AppCompatActivity {
 
                             @Override
                             public void resolved(Object o) {
-                                toMainActivity();
+                                Database.getInstance().collection("user").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+                                    User u = documentSnapshot.toObject(User.class);
+                                    if (u.getName() == null || u.getEmail() == null || u.getPhone() == null) {
+                                        Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
+                                        intent.putExtra("USER", u);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        toMainActivity();
+                                    }
+                                });
                             }
 
                             @Override

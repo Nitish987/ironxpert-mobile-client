@@ -1,6 +1,8 @@
 package com.ironxpert.client.models;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String email, msgToken, name, phone, photo, uid;
 
     public User() {}

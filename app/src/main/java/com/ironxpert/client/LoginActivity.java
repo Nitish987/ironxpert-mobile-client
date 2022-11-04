@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.ironxpert.client.common.auth.Auth;
+import com.ironxpert.client.common.db.Database;
+import com.ironxpert.client.models.User;
 import com.ironxpert.client.utils.Promise;
 import com.ironxpert.client.utils.Validator;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
@@ -101,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            if ((phone.startsWith("+91") || phone.startsWith("91")) && phone.length() != 10) {
+            if (phone.startsWith("+91") || phone.length() != 10) {
                 phone_eTxt.setError("Invalid phone.");
                 return;
             }
@@ -162,7 +164,18 @@ public class LoginActivity extends AppCompatActivity {
 
                             @Override
                             public void resolved(Object o) {
-                                toMainActivity();
+                                Database.getInstance().collection("user").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+                                    User u = documentSnapshot.toObject(User.class);
+                                    if (u.getName() == null || u.getEmail() == null || u.getPhone() == null) {
+                                        Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
+                                        intent.putExtra("USER", u);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        toMainActivity();
+                                    }
+                                });
                             }
 
                             @Override

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ironxpert.client.common.auth.Auth;
+import com.ironxpert.client.common.db.Database;
+import com.ironxpert.client.models.User;
 import com.ironxpert.client.tabs.HomeFragment;
 import com.ironxpert.client.tabs.ProfileFragment;
 import com.ironxpert.client.tabs.OrdersFragment;
@@ -37,6 +39,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Database.getInstance().collection("user").document(Auth.getAuthUserUid()).get().addOnSuccessListener(documentSnapshot -> {
+            User u = documentSnapshot.toObject(User.class);
+            if (u.getName() == null || u.getEmail() == null || u.getPhone() == null) {
+                Intent intent = new Intent(getApplicationContext(), AccountDetailsActivity.class);
+                intent.putExtra("USER", u);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         tabs.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.home:

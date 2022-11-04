@@ -23,6 +23,7 @@ import com.ironxpert.client.MyPhotoActivity;
 import com.ironxpert.client.R;
 import com.ironxpert.client.common.auth.Auth;
 import com.ironxpert.client.common.auth.AuthPreferences;
+import com.ironxpert.client.models.User;
 import com.ironxpert.client.sheets.AddressBottomSheet;
 
 import java.util.Objects;
@@ -63,11 +64,13 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        myNameTxt.setText(Auth.getAuthUserName());
-        emailTxt.setText(Auth.getAuthUserEmail());
-
         FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).get().addOnSuccessListener(documentSnapshot -> {
-            if (!documentSnapshot.get("photo", String.class).equals("")) {
+            User user = documentSnapshot.toObject(User.class);
+
+            assert user != null;
+            myNameTxt.setText(user.getName());
+            emailTxt.setText(user.getEmail());
+            if (user.getPhoto() != null) {
                 photo = documentSnapshot.get("photo", String.class);
                 Glide.with(view.getContext()).load(photo).into(myPhoto);
             }

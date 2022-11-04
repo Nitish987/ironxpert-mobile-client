@@ -131,4 +131,6 @@
     <string name="services">Our Services</string>
     <string name="service_name">Service Name</string>
     <string name="service_description">Service Description</string>
+    <string name="name">Name</string>
+    <string name="contact_details">Contact Details</string>
 </resources>

@@ -39,6 +39,13 @@
             android:layout_marginTop="25dp"
             style="@style/Heading"/>
 
+        <TextView
+            android:id="@+id/otp_subheading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/otp_verification"
+            android:layout_marginTop="2dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
