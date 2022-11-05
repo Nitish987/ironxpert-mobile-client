@@ -1,6 +1,7 @@
 package com.ironxpert.client.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.ironxpert.client.R;
+import com.ironxpert.client.ServiceDetailActivity;
 import com.ironxpert.client.models.Service;
 
 import java.util.List;
 
 public class ServiceRecyclerAdapter extends RecyclerView.Adapter<ServiceRecyclerAdapter.ServiceHolder> {
-    private List<Service> serviceList;
+    private final List<Service> serviceList;
 
     public ServiceRecyclerAdapter(List<Service> serviceList) {
         this.serviceList = serviceList;
@@ -37,7 +39,9 @@ public class ServiceRecyclerAdapter extends RecyclerView.Adapter<ServiceRecycler
         holder.setDescription(service.getDesc());
 
         holder.itemView.setOnClickListener(view -> {
-
+            Intent intent = new Intent(view.getContext(), ServiceDetailActivity.class);
+            intent.putExtra("SERVICE", service);
+            view.getContext().startActivity(intent);
         });
     }
 

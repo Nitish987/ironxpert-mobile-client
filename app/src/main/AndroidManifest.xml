@@ -19,6 +19,13 @@
         android:theme="@style/Theme.IronXpert"
         tools:targetApi="31">
         <activity
+            android:name=".ServiceDetailActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".AccountDetailsActivity"
             android:exported="false">
             <meta-data
