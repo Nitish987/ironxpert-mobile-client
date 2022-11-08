@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LaunderingService {
+    public static final String SHOP = "emvQu3qThxF2n7pjouGd";
     public static List<Service> serviceList = new ArrayList<>();
 
     public static List<Service> getServiceList() {

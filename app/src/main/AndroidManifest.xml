@@ -19,7 +19,7 @@
         android:theme="@style/Theme.IronXpert"
         tools:targetApi="31">
         <activity
-            android:name=".ServiceDetailActivity"
+            android:name=".ServiceItemActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

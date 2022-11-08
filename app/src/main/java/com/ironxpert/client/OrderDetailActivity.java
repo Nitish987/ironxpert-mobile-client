@@ -24,7 +24,6 @@ import com.ironxpert.client.common.security.AES128;
 import com.ironxpert.client.models.CartItem;
 import com.ironxpert.client.models.CheckoutCartItem;
 import com.ironxpert.client.models.Order;
-import com.ironxpert.client.models.Topping;
 import com.ironxpert.client.utils.DateParser;
 import com.ironxpert.client.utils.Promise;
 
@@ -249,16 +248,8 @@ public class OrderDetailActivity extends AppCompatActivity {
     private List<CheckoutCartItem> createOrderItemList(List<CartItem> items) {
         List<CheckoutCartItem> checkoutCartItems = new ArrayList<>();
         for (CartItem cartItem : items) {
-            StringBuilder orderName = new StringBuilder();
-            orderName.append(cartItem.getFood_data().getName()).append("(").append(cartItem.getQuantity()).append(")");
-            if (!cartItem.getTopping_ids().equals("None")) {
-                orderName.append(" + Toppings(");
-                for (Topping topping: cartItem.getToppings()) {
-                    orderName.append(topping.getName()).append(", ");
-                }
-                orderName.replace(orderName.length() - 2, orderName.length(), ")");
-            }
-            CheckoutCartItem item = new CheckoutCartItem(orderName.toString(), cartItem.getTotal_price());
+            String orderName = cartItem.getServiceItem().getName() + " (" + cartItem.getQuantity() + ")";
+            CheckoutCartItem item = new CheckoutCartItem(orderName, cartItem.getTotalPrice());
             checkoutCartItems.add(item);
         }
         return checkoutCartItems;

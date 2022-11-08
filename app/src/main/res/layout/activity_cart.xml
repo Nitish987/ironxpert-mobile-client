@@ -34,28 +34,15 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <TextView
         android:id="@+id/info_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:text="@string/cart_list"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:layout_below="@id/toolbar"
-        android:paddingHorizontal="10dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/my"
-            android:textSize="15sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/cart_list"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+        android:paddingHorizontal="10dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

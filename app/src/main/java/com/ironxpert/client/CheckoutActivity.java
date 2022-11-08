@@ -35,7 +35,6 @@ import com.ironxpert.client.common.security.AES128;
 import com.ironxpert.client.models.CartItem;
 import com.ironxpert.client.models.CheckoutCartItem;
 import com.ironxpert.client.models.Order;
-import com.ironxpert.client.models.Topping;
 import com.ironxpert.client.sheets.AddressBottomSheet;
 import com.ironxpert.client.utils.Promise;
 
@@ -57,7 +56,6 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
 
     private List<CartItem> items;
     private int total_cart_price = 0, delivery_price = 0;
-    private String name = null, phone = null;
     private double latitude = 0, longitude = 0, distance = 0;
     private boolean isOpen = true, isDeliveryFree = false;
 
@@ -108,7 +106,7 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
         CheckoutCartItemRecyclerAdapter adapter = new CheckoutCartItemRecyclerAdapter(createOrderItemList());
         cartItemRV.setAdapter(adapter);
 
-        FirebaseFirestore.getInstance().collection("shop").document("state").addSnapshotListener((value, error) -> {
+        Database.getInstance().collection("shop").document("state").addSnapshotListener((value, error) -> {
             if (value != null && value.exists()) {
                 isOpen = value.get("open", Boolean.class);
                 isDeliveryFree = value.get("deliveryFree", Boolean.class);
@@ -118,30 +116,31 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
 
         setPayablePrice(distance);
 
-        FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).addSnapshotListener(this, (value, error) -> {
-            if (value != null && value.exists()) {
-                name = value.get("name", String.class);
-                phone = value.get("phone", String.class);
-                String myAddress = value.get("address", String.class);
+        Database.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).get().addOnSuccessListener(documentSnapshot -> {
+            namePO = documentSnapshot.get("name", String.class);
+            phonePO = documentSnapshot.get("phone", String.class);
 
-                nameTxt.setText(name);
-                phoneTxt.setText(phone);
-                addressTxt.setText(myAddress);
+            nameTxt.setText(namePO);
+            phoneTxt.setText(phonePO);
+        });
+
+        FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).collection("current").document("address").addSnapshotListener(this, (value, error) -> {
+            if (value != null && value.exists()) {
+                addressPO = value.get("address", String.class);
+                addressTxt.setText(addressPO);
             }
         });
 
-        changeDetailsBtn.setOnClickListener(view -> AddressBottomSheet.newInstance(nameTxt.getText().toString(), phoneTxt.getText().toString(), addressTxt.getText().toString()).show(getSupportFragmentManager(), "ADDRESS_DIALOG"));
+        changeDetailsBtn.setOnClickListener(view -> AddressBottomSheet.newInstance(addressTxt.getText().toString()).show(getSupportFragmentManager(), "ADDRESS_DIALOG"));
 
         orderBtn.setOnClickListener(view -> {
             if (ActivityCompat.checkSelfPermission(CheckoutActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED) {
                 checkLocationPermission();
             } else {
-                namePO = nameTxt.getText().toString();
-                phonePO = phoneTxt.getText().toString();
                 addressPO = addressTxt.getText().toString();
 
                 if (namePO.equals(getString(R.string.no_name)) || phonePO.equals(getString(R.string.no_phone)) || addressPO.equals(getString(R.string.no_address))) {
-                    AddressBottomSheet.newInstance(namePO, phonePO, addressPO).show(getSupportFragmentManager(), "ADDRESS_DIALOG");
+                    AddressBottomSheet.newInstance(addressPO).show(getSupportFragmentManager(), "ADDRESS_DIALOG");
                     return;
                 }
 
@@ -209,12 +208,12 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
     private void placeOrder(PaymentData paymentData) {
         int totalDiscount = 0;
         for (CartItem i : items) {
-            totalDiscount += i.getFood_data().getDiscount();
+            totalDiscount += i.getServiceItem().getDiscount();
         }
 
         GeoPoint point = new GeoPoint(latitude, longitude);
         String secureNumber = AES128.encrypt(Auth.ENCRYPTION_KEY, Integer.toString((int) (Math.random() * 10000)));
-        String orderId = FirebaseFirestore.getInstance().collection("orders").document().getId();
+        String orderId = Database.getInstance().collection("orders").document().getId();
 
         Order order = new Order(
                 addressPO,
@@ -379,16 +378,8 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
     private List<CheckoutCartItem> createOrderItemList() {
         List<CheckoutCartItem> checkoutCartItems = new ArrayList<>();
         for (CartItem cartItem : items) {
-            StringBuilder orderName = new StringBuilder();
-            orderName.append(cartItem.getFood_data().getName()).append("(").append(cartItem.getQuantity()).append(")");
-            if (!cartItem.getTopping_ids().equals("None")) {
-                orderName.append(" + Toppings(");
-                for (Topping topping : cartItem.getToppings()) {
-                    orderName.append(topping.getName()).append(", ");
-                }
-                orderName.replace(orderName.length() - 2, orderName.length(), ")");
-            }
-            CheckoutCartItem item = new CheckoutCartItem(orderName.toString(), cartItem.getTotal_price());
+            String orderName = cartItem.getServiceItem().getName() + " (" + cartItem.getQuantity() + ")";
+            CheckoutCartItem item = new CheckoutCartItem(orderName, cartItem.getTotalPrice());
             checkoutCartItems.add(item);
         }
         return checkoutCartItems;

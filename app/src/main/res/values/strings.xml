@@ -133,4 +133,7 @@
     <string name="service_description">Service Description</string>
     <string name="name">Name</string>
     <string name="contact_details">Contact Details</string>
+    <string name="category">Category</string>
+    <string name="no_items_yet">No Items Yet</string>
+    <string name="item_name">Item Name</string>
 </resources>

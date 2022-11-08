@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:background="@drawable/border_block"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/item_name"
+        style="@style/Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:paddingHorizontal="10dp"
+        android:text="@string/service_name"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/item_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:paddingHorizontal="10dp"
+        android:text="@string/category"/>
+
+    <TextView
+        android:id="@+id/item_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="1"
+        android:paddingHorizontal="10dp"
+        android:text="@string/price" />
+
+    <TextView
+        android:id="@+id/item_discount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_dark_bg"
+        android:backgroundTint="@color/green"
+        android:paddingHorizontal="5dp"
+        android:paddingVertical="2dp"
+        android:text="@string/_0"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        android:textStyle="italic"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"/>
+
+</LinearLayout>

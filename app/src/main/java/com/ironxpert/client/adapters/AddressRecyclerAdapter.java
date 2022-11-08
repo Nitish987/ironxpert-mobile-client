@@ -34,7 +34,7 @@ public class AddressRecyclerAdapter extends FirestoreRecyclerAdapter<Address, Ad
         holder.setAddressDetails(model);
 
         holder.itemView.setOnClickListener(view -> {
-            FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).set(model).addOnSuccessListener(pass::on);
+            FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).collection("current").document("address").set(model).addOnSuccessListener(pass::on);
         });
     }
 
@@ -45,19 +45,15 @@ public class AddressRecyclerAdapter extends FirestoreRecyclerAdapter<Address, Ad
     }
 
     public static class AddressHolder extends RecyclerView.ViewHolder {
-        private final TextView name, address, phone;
+        private final TextView address;
 
         public AddressHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.name);
             address = itemView.findViewById(R.id.address);
-            phone = itemView.findViewById(R.id.phone);
         }
 
         public void setAddressDetails(Address model) {
-            name.setText(model.getName());
             address.setText(model.getAddress());
-            phone.setText(model.getPhone());
         }
     }
 }

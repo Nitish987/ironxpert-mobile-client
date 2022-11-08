@@ -19,8 +19,8 @@ import com.ironxpert.client.R;
 import com.ironxpert.client.common.auth.Auth;
 import com.ironxpert.client.models.CartItem;
 import com.ironxpert.client.models.Food;
-import com.ironxpert.client.sheets.FoodDetailBottomSheet;
 import com.ironxpert.client.sheets.RatingBottomSheet;
+import com.ironxpert.client.sheets.ServiceItemDetailBottomSheet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,8 +50,8 @@ public class FoodItemRecyclerAdapter extends RecyclerView.Adapter<FoodItemRecycl
         holder.setPrice(food.getPrice(), food.getDiscount());
         holder.setRating(food.getRating());
 
-        holder.itemView.setOnClickListener(view -> FoodDetailBottomSheet.newInstance(food).show(fragmentManager, "FOOD_DETAIL_DIALOG"));
-        holder.rating.setOnClickListener(view -> RatingBottomSheet.newInstance(food.getFood_id(), food.getName()).show(fragmentManager, "RATING_DIALOG"));
+//        holder.itemView.setOnClickListener(view -> ServiceItemDetailBottomSheet.newInstance(food).show(fragmentManager, "FOOD_DETAIL_DIALOG"));
+//        holder.rating.setOnClickListener(view -> RatingBottomSheet.newInstance(food.getFood_id(), food.getName()).show(fragmentManager, "RATING_DIALOG"));
 
         holder.addToCartBtn.setOnClickListener(view -> {
             int one_piece_price = food.getPrice();
@@ -59,20 +59,20 @@ public class FoodItemRecyclerAdapter extends RecyclerView.Adapter<FoodItemRecycl
                 one_piece_price = one_piece_price - Math.round((float) (food.getDiscount() * one_piece_price) / 100);
             }
 
-            DocumentReference reference = FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).collection("cart").document();
+//            DocumentReference reference = FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).collection("cart").document();
 
-            CartItem item = new CartItem();
-            item.setFood_data(food);
-            item.setFood_id(food.getFood_id());
-            item.setFood_price(one_piece_price);
-            item.setItem_id(reference.getId());
-            item.setQuantity(1);
-            item.setTopping_ids("None");
-            item.setTopping_price(0);
-            item.setToppings(new ArrayList<>());
-            item.setTotal_price(one_piece_price);
+//            CartItem item = new CartItem(id, quantity, serviceItem, serviceItemId, totalPrice);
+//            item.setFood_data(food);
+//            item.setFood_id(food.getFood_id());
+//            item.setFood_price(one_piece_price);
+//            item.setItem_id(reference.getId());
+//            item.setQuantity(1);
+//            item.setTopping_ids("None");
+//            item.setTopping_price(0);
+//            item.setToppings(new ArrayList<>());
+//            item.setTotal_price(one_piece_price);
 
-            reference.set(item).addOnSuccessListener(unused -> Toast.makeText(view.getContext(), "Item added.", Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> Toast.makeText(view.getContext(), "unable to add.", Toast.LENGTH_SHORT).show());
+//            reference.set(item).addOnSuccessListener(unused -> Toast.makeText(view.getContext(), "Item added.", Toast.LENGTH_SHORT).show()).addOnFailureListener(e -> Toast.makeText(view.getContext(), "unable to add.", Toast.LENGTH_SHORT).show());
         });
     }
 

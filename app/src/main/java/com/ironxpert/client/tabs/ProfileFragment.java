@@ -23,6 +23,7 @@ import com.ironxpert.client.MyPhotoActivity;
 import com.ironxpert.client.R;
 import com.ironxpert.client.common.auth.Auth;
 import com.ironxpert.client.common.auth.AuthPreferences;
+import com.ironxpert.client.common.db.Database;
 import com.ironxpert.client.models.User;
 import com.ironxpert.client.sheets.AddressBottomSheet;
 
@@ -76,17 +77,20 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-//        FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).addSnapshotListener((value, error) -> {
-//            if (value != null && value.exists()) {
-//                name = value.get("name", String.class);
-//                phone = value.get("phone", String.class);
-//                address = value.get("address", String.class);
-//
-//                nameTxt.setText(name);
-//                phoneTxt.setText(phone);
-//                addressTxt.setText(address);
-//            }
-//        });
+        Database.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).get().addOnSuccessListener(documentSnapshot -> {
+            name = documentSnapshot.get("name", String.class);
+            phone = documentSnapshot.get("phone", String.class);
+
+            nameTxt.setText(name);
+            phoneTxt.setText(phone);
+        });
+
+        FirebaseFirestore.getInstance().collection("user").document(Objects.requireNonNull(Auth.getAuthUserUid())).collection("current").document("address").addSnapshotListener((value, error) -> {
+            if (value != null && value.exists()) {
+                address = value.get("address", String.class);
+                addressTxt.setText(address);
+            }
+        });
 
         changePhotoBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(view.getContext(), MyPhotoActivity.class);
@@ -94,11 +98,7 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
         });
 
-        deliveryAddressDesk.setOnClickListener(view1 -> AddressBottomSheet.newInstance(
-                nameTxt.getText().toString(),
-                phoneTxt.getText().toString(),
-                addressTxt.getText().toString()
-        ).show(getParentFragmentManager(), "DIALOG"));
+        deliveryAddressDesk.setOnClickListener(view1 -> AddressBottomSheet.newInstance(addressTxt.getText().toString()).show(getParentFragmentManager(), "DIALOG"));
 
         logoutBtn.setOnClickListener(view1 -> {
             AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());

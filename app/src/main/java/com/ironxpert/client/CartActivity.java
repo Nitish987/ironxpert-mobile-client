@@ -65,7 +65,7 @@ public class CartActivity extends AppCompatActivity {
             }
 
             for (CartItem item: cartItems) {
-                total_cart_price += item.getTotal_price();
+                total_cart_price += item.getTotalPrice();
             }
 
             String pri_ = "\u20B9 " + total_cart_price;
@@ -85,7 +85,7 @@ public class CartActivity extends AppCompatActivity {
         checkoutBtn.setOnClickListener(view -> {
             List<CartItem> newCartList = new ArrayList<>();
             for (CartItem item : cartItems) {
-                if (!CartItemRecyclerAdapter.REMOVED_CART_ITEM.contains(item.getItem_id())) {
+                if (!CartItemRecyclerAdapter.REMOVED_CART_ITEM.contains(item.getId())) {
                     newCartList.add(item);
                 }
             }

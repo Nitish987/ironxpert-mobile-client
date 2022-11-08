@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.ironxpert.client.R;
-import com.ironxpert.client.ServiceDetailActivity;
+import com.ironxpert.client.ServiceItemActivity;
 import com.ironxpert.client.models.Service;
 
 import java.util.List;
@@ -39,8 +39,9 @@ public class ServiceRecyclerAdapter extends RecyclerView.Adapter<ServiceRecycler
         holder.setDescription(service.getDesc());
 
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), ServiceDetailActivity.class);
-            intent.putExtra("SERVICE", service);
+            Intent intent = new Intent(view.getContext(), ServiceItemActivity.class);
+            intent.putExtra("SERVICE_INDEX", service.getIndex());
+            intent.putExtra("SERVICE_NAME", service.getName());
             view.getContext().startActivity(intent);
         });
     }

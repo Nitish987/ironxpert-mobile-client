@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.ironxpert.client.R;
 import com.ironxpert.client.models.Food;
-import com.ironxpert.client.sheets.FoodDetailBottomSheet;
 import com.ironxpert.client.sheets.RatingBottomSheet;
+import com.ironxpert.client.sheets.ServiceItemDetailBottomSheet;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class FoodCardRecyclerAdapter extends RecyclerView.Adapter<FoodCardRecycl
         holder.setPrice(food.getPrice(), food.getDiscount());
         holder.setRating(food.getRating());
 
-        holder.itemView.setOnClickListener(view -> FoodDetailBottomSheet.newInstance(food).show(fragmentManager, "FOOD_DETAIL_DIALOG"));
+//        holder.itemView.setOnClickListener(view -> ServiceItemDetailBottomSheet.newInstance(food).show(fragmentManager, "FOOD_DETAIL_DIALOG"));
         holder.rating.setOnClickListener(view -> RatingBottomSheet.newInstance(food.getFood_id(), food.getName()).show(fragmentManager, "RATING_DIALOG"));
     }
 
