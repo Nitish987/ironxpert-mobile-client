@@ -109,6 +109,13 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/by_signing_up_you_re_agree_to_our_terms_conditions_and_privacy_policy"
+            android:gravity="center_horizontal"/>
+
     </LinearLayout>
 
     <TextView

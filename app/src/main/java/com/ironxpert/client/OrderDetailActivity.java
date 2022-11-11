@@ -37,7 +37,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private TextView itemsTxt, orderNumberTxt, totalCartPriceTxt, deliveryCartPriceTxt, totalPayableTxt, nameTxt, phoneTxt, addressTxt, agentNameTxt, agentPhoneTxt, timeTxt, paymentMethodTxt;
     private AppCompatButton cancelOrderBtn, trackDeliveryBtn;
     private LinearProgressIndicator orderStateIndicator;
-    private TextView orderedStateTxt, orderedState, cookingState, dispatchedState, onWayState, deliveredState, deliveryCodeTxt;
+    private TextView orderedStateTxt, orderedState, laundryInProgressState, dispatchedState, onWayState, deliveredState, deliveryCodeTxt;
     private LinearLayout deliveryAgentDesk, deliveryVerificationDesk;
 
     private String orderId;
@@ -69,7 +69,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         orderStateIndicator = findViewById(R.id.order_state_indicator);
         orderedStateTxt = findViewById(R.id.order_state_text);
         orderedState = findViewById(R.id.ordered_state);
-        cookingState = findViewById(R.id.cooking_state);
+        laundryInProgressState = findViewById(R.id.laundry_in_progress_state);
         dispatchedState = findViewById(R.id.dispatched_state);
         onWayState = findViewById(R.id.on_way_state);
         deliveredState = findViewById(R.id.delivered_state);
@@ -102,7 +102,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                 String tp_ = "\u20B9 " + order.getPayablePrice();
                 totalPayableTxt.setText(tp_);
 
-                String c_ = order.getItems().size() + " Food Items";
+                String c_ = order.getItems().size() + " Laundry Items";
                 itemsTxt.setText(c_);
 
                 String o_ = "#~order~" + order.getOrderNumber();
@@ -156,33 +156,33 @@ public class OrderDetailActivity extends AppCompatActivity {
                 switch (order.getOrderState()) {
                     case 0:
                         orderStateIndicator.setProgressCompat(0, true);
-                        orderedState.getBackground().setTint(getColor(R.color.red));
+                        orderedState.getBackground().setTint(getColor(R.color.blue));
                         break;
                     case 1:
                         orderStateIndicator.setProgressCompat(25, true);
-                        orderedState.getBackground().setTint(getColor(R.color.red));
-                        cookingState.getBackground().setTint(getColor(R.color.red));
+                        orderedState.getBackground().setTint(getColor(R.color.blue));
+                        laundryInProgressState.getBackground().setTint(getColor(R.color.blue));
                         break;
                     case 2:
                         orderStateIndicator.setProgressCompat(50, true);
-                        orderedState.getBackground().setTint(getColor(R.color.red));
-                        cookingState.getBackground().setTint(getColor(R.color.red));
-                        dispatchedState.getBackground().setTint(getColor(R.color.red));
+                        orderedState.getBackground().setTint(getColor(R.color.blue));
+                        laundryInProgressState.getBackground().setTint(getColor(R.color.blue));
+                        dispatchedState.getBackground().setTint(getColor(R.color.blue));
                         break;
                     case 3:
                         orderStateIndicator.setProgressCompat(75, true);
-                        orderedState.getBackground().setTint(getColor(R.color.red));
-                        cookingState.getBackground().setTint(getColor(R.color.red));
-                        dispatchedState.getBackground().setTint(getColor(R.color.red));
-                        onWayState.getBackground().setTint(getColor(R.color.red));
+                        orderedState.getBackground().setTint(getColor(R.color.blue));
+                        laundryInProgressState.getBackground().setTint(getColor(R.color.blue));
+                        dispatchedState.getBackground().setTint(getColor(R.color.blue));
+                        onWayState.getBackground().setTint(getColor(R.color.blue));
                         break;
                     case 4:
                         orderStateIndicator.setProgressCompat(100, true);
-                        orderedState.getBackground().setTint(getColor(R.color.red));
-                        cookingState.getBackground().setTint(getColor(R.color.red));
-                        dispatchedState.getBackground().setTint(getColor(R.color.red));
-                        onWayState.getBackground().setTint(getColor(R.color.red));
-                        deliveredState.getBackground().setTint(getColor(R.color.red));
+                        orderedState.getBackground().setTint(getColor(R.color.blue));
+                        laundryInProgressState.getBackground().setTint(getColor(R.color.blue));
+                        dispatchedState.getBackground().setTint(getColor(R.color.blue));
+                        onWayState.getBackground().setTint(getColor(R.color.blue));
+                        deliveredState.getBackground().setTint(getColor(R.color.blue));
 
                         deliveryAgentDesk.setVisibility(View.GONE);
                         deliveryVerificationDesk.setVisibility(View.GONE);
@@ -258,7 +258,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     private String getOrderStateTxt(int state) {
         switch (state) {
             case 0: return  "Ordered...";
-            case 1: return  "Cooking...";
+            case 1: return  "Laundry in progress...";
             case 2: return  "Dispatched...";
             case 3: return  "On way...";
             case 4: return  "Delivered...";

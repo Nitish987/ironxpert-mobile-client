@@ -4,44 +4,25 @@
     <string name="login">Login</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign up</string>
     <string name="terms_privacy"><![CDATA[Terms & Conditions | Privacy Policy]]></string>
-    <string name="forget_password">Forget Password</string>
-    <string name="sign_up">Sign up</string>
     <string name="full_name">Full Name</string>
     <string name="continue_">Continue</string>
-    <string name="already_have_an_account_login">Already have an account? Login</string>
-    <string name="sign_up_password">Sign up Password</string>
     <string name="otp_verification">OTP Verification</string>
     <string name="otp">OTP</string>
-    <string name="confirm_password">Confirm Password</string>
     <string name="verify">Verify</string>
-    <string name="by_signing_up_you_re_agree_to_our_terms_conditions_and_privacy_policy"><![CDATA[By Signing up, You\'re agree to our Terms & conditions and Privacy policy.]]></string>
-    <string name="enter_the_password">Enter the Password</string>
+    <string name="by_signing_up_you_re_agree_to_our_terms_conditions_and_privacy_policy"><![CDATA[By Sign in/Login, You\'re agree to our Terms & conditions and Privacy policy.]]></string>
     <string name="cart">Cart</string>
     <string name="home">Home</string>
     <string name="orders">Orders</string>
     <string name="profile">Profile</string>
     <string name="welcome_back">Welcome Back!</string>
     <string name="hello">Hello</string>
-    <string name="breakfast">Breakfast</string>
-    <string name="lunch">Lunch</string>
-    <string name="dinner">Dinner</string>
-    <string name="food_name">Food Name</string>
-    <string name="food_type">Food Type</string>
     <string name="price">Price</string>
     <string name="_0">0</string>
     <string name="all">All</string>
-    <string name="top_tens">Top tens</string>
-    <string name="food">food</string>
-    <string name="rating">rating</string>
     <string name="_0_per">-0%</string>
-    <string name="description_about_the_food_item">Description about the food item.</string>
-    <string name="ingredients">Ingredients -</string>
-    <string name="includes">includes -</string>
     <string name="available">Available</string>
     <string name="_1">1</string>
-    <string name="add_topping">Add Topping</string>
     <string name="go_to_cart">Go to Cart</string>
     <string name="total_price">Total Price</string>
     <string name="add_to_cart">Add to Cart</string>
@@ -87,7 +68,7 @@
     <string name="_5">5</string>
     <string name="ordered">Ordered…</string>
     <string name="delivery_verification_code">Delivery Verification Code</string>
-    <string name="share_the_code_to_your_delivery_agent_only_when_you_get_your_food_package">Share the code to your delivery agent only when you get your food package in your hand.</string>
+    <string name="share_the_code_to_your_delivery_agent_only_when_you_get_your_food_package">Share the code to your delivery agent only when you get your item package in your hand.</string>
     <string name="_0000">0000</string>
     <string name="order_successful">Order Successful</string>
     <string name="view_order_details">View Order Details</string>
@@ -106,7 +87,6 @@
         <item>Cash</item>
         <item>Pay Online</item>
     </string-array>
-    <string name="rate_this_food_item">Rate this food item.</string>
     <string name="add_new_delivery_details">Add New Delivery Details</string>
     <string name="no_address_saved">No address saved.</string>
     <string name="help_support"><![CDATA[Help & Support]]></string>
@@ -118,8 +98,8 @@
         <item>Simple Discussion</item>
         <item>Order Issue</item>
         <item>Order Payment Issue</item>
-        <item>Food related Issue</item>
-        <item>Topping related Issue</item>
+        <item>Laundry related Issue</item>
+        <item>Laundry Item related Issue</item>
         <item>Delivery related Issue</item>
         <item>Account related Issue</item>
         <item>Account Deletion Issue</item>

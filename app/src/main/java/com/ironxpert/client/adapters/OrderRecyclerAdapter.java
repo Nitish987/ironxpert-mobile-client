@@ -70,7 +70,7 @@ public class OrderRecyclerAdapter extends FirestoreRecyclerAdapter<Order, OrderR
         }
 
         public void setItems(int count) {
-            String st = count + " Food Items";
+            String st = count + " Laundry Items";
             this.items.setText(st);
         }
 
@@ -87,7 +87,7 @@ public class OrderRecyclerAdapter extends FirestoreRecyclerAdapter<Order, OrderR
                         st = "Ordered...";
                         break;
                     case 1:
-                        st = "Cooking...";
+                        st = "Laundry in progress...";
                         break;
                     case 2:
                         st = "Dispatched...";

@@ -61,7 +61,7 @@ public class ServiceItemDetailBottomSheet extends BottomSheetDialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.bottom_sheet_food_detail, container, false);
+        view = inflater.inflate(R.layout.bottom_sheet_service_item_detail, container, false);
 
         name = view.findViewById(R.id.item_name);
         category = view.findViewById(R.id.item_category);
