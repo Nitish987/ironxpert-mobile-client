@@ -15,9 +15,13 @@ import android.widget.Toast;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.ironxpert.client.common.auth.Auth;
+import com.ironxpert.client.common.db.Database;
+import com.ironxpert.client.common.db.LaunderingService;
+import com.ironxpert.client.utils.Promise;
 import com.ironxpert.client.utils.Validator;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HelpSupportActivity extends AppCompatActivity {
@@ -77,7 +81,23 @@ public class HelpSupportActivity extends AppCompatActivity {
 
             ref.set(map).addOnSuccessListener(unused -> {
                 Toast.makeText(this, "Message sent Successfully.", Toast.LENGTH_SHORT).show();
-                finish();
+                Database.getInstance().collection("shop").document(LaunderingService.SHOP).get().addOnSuccessListener(documentSnapshot -> {
+                    List<String> adminUserList = (List<String>) documentSnapshot.get("admin");
+                    Auth.Notify.pushNotification(this, adminUserList.get(0), "Customer Query", "You Customer need some help. Just have a look and fulfil it.", "admin", new Promise<String>() {
+                        @Override
+                        public void resolving(int progress, String msg) {}
+
+                        @Override
+                        public void resolved(String o) {
+                            finish();
+                        }
+
+                        @Override
+                        public void reject(String err) {
+                            finish();
+                        }
+                    });
+                }).addOnFailureListener(e -> finish());
             }).addOnFailureListener(e -> Toast.makeText(this, "Unable to send Message.", Toast.LENGTH_SHORT).show());
         });
 

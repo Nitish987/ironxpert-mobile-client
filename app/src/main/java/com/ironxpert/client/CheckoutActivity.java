@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.ironxpert.client.common.db.LaunderingService;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentData;
 import com.razorpay.PaymentResultWithDataListener;
@@ -106,10 +107,10 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
         CheckoutCartItemRecyclerAdapter adapter = new CheckoutCartItemRecyclerAdapter(createOrderItemList());
         cartItemRV.setAdapter(adapter);
 
-        Database.getInstance().collection("shop").document("state").addSnapshotListener((value, error) -> {
+        Database.getInstance().collection("shop").document(LaunderingService.SHOP).addSnapshotListener((value, error) -> {
             if (value != null && value.exists()) {
-                isOpen = value.get("open", Boolean.class);
-                isDeliveryFree = value.get("deliveryFree", Boolean.class);
+                isOpen = value.get("shopOpen", Boolean.class);
+                isDeliveryFree = !value.get("paidDelivery", Boolean.class);
                 setPayablePrice(distance);
             }
         });

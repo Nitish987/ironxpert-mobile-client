@@ -27,6 +27,7 @@ public class Database {
         headers.put("RAK", ApiKey.REQUEST_API_KEY);
         headers.put("AT", Auth.AUTH_TOKEN);
         headers.put("UID", Auth.getAuthUserUid());
+        headers.put("MYTYPE", "customer");
 
         JSONObject o = new JSONObject();
         try {
@@ -62,6 +63,7 @@ public class Database {
         headers.put("RAK", ApiKey.REQUEST_API_KEY);
         headers.put("AT", Auth.AUTH_TOKEN);
         headers.put("UID", Auth.getAuthUserUid());
+        headers.put("MYTYPE", "customer");
 
         JSONObject o = new JSONObject();
         try {
@@ -106,6 +108,7 @@ public class Database {
         headers.put("RAK", ApiKey.REQUEST_API_KEY);
         headers.put("AT", Auth.AUTH_TOKEN);
         headers.put("UID", Auth.getAuthUserUid());
+        headers.put("MYTYPE", "customer");
 
         Server.request(context, Request.Method.DELETE, ApiKey.REQUEST_API_URL + "client/cancel-customer-order/" + orderId + "/", headers, null, new Promise<JSONObject>() {
                     @Override
